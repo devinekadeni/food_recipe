@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import WrapperFoodCardStyle from './WrapperFoodCardStyle';
-import food1 from '../../assets/images/top-food_1.png';
+import food1 from '../../assets/images/top_recipe_1.png';
 
 class FoodCard extends Component {
   constructor(props) {

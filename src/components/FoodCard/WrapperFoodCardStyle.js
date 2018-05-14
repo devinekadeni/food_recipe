@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   max-width: 262px;
-  border: 0.1px solid #e2e2e2;
+  margin-right: 42px;
 
   .img-card {
     position: relative;  
