@@ -1,5 +1,32 @@
+@font-face {
+  font-family: 'Gotham-Book';
+  src: url('./assets/fonts/Gotham/Gotham-Book.otf');
+}
+
+@font-face {
+  font-family: 'Gotham-Book-Medium';
+  src: url('./assets/fonts/Gotham/Gotham-Medium.otf');
+}
+
+@font-face {
+  font-family: 'Gotham-Book-Bold';
+  src: url('./assets/fonts/Gotham/GOTHAM-BLACK.TTF');
+}
+
+@font-face {
+  font-family: 'DomaineDispNar';
+  src: url('./assets/fonts/DomaineDispNar/DomaineDispNar-Regular.otf');
+}
+
+@font-face {
+  font-family: 'DomaineDispNar-Bold';
+  src: url('./assets/fonts/DomaineDispNar/DomaineDispNar-Bold.otf');
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Gotham-Book';
+  box-sizing: border-box;
+  font-size: 16px;
 }
