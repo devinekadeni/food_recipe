@@ -29,16 +29,28 @@ const Wrapper = styled.div`
         list-style: none;
 
         li {
-          margin-bottom: 20px;
+          padding: 10px 0;
+          transition: all 0.3s;
+
+          :hover {
+            cursor: pointer;
+            background-color: rgba(226, 226, 226, 0.6)
+          }
         }
 
         span {
           display: none;
         }
 
+        li.selected {
+          font-size: 16px;
+          font-family: Gotham-Book-Bold;
+        }
+
         .selected span {
           display: inline;
           color: #bd7133;
+          margin-right: 10px;
         }
       }
 
@@ -66,6 +78,18 @@ const Wrapper = styled.div`
         div {
           border-top: solid #bd7133 2px;
           width: 40px;
+          transition: width 0.5s ease-out;
+        }
+        >label:hover{
+          cursor: pointer;
+        }
+        :hover {
+          color: grey;
+          cursor: pointer;
+
+          div {
+            width: 100px;
+          }
         }
       }
 

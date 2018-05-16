@@ -27,8 +27,10 @@ class HomePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ topRecipes: nextProps.mealTypeList.results });
-    console.log(nextProps.mealTypeList);
+    if(nextProps.mealTypeList.results) {
+      this.setState({ topRecipes: nextProps.mealTypeList.results });
+      console.log(nextProps.mealTypeList);
+    }
   }
 
   moveLeft = () => {
@@ -52,7 +54,11 @@ class HomePage extends Component {
 
   renderFoodCard() {
     if(!this.state.topRecipes) {
-      return <div>Fetching...</div>
+      return (
+        <div style={{display:'flex', justifyContent: 'center', alignItems: 'center', flex: 1}}>
+          <i className="fas fa-spinner fa-spin fa-5x"></i>
+        </div>
+      )
     }else {
       return _.map(this.state.topRecipes, (value, index) => 
       <FoodCard 
@@ -63,15 +69,16 @@ class HomePage extends Component {
     }
   }
 
-  chooseMenu = () => {
-
+  chooseMenu = (topMenu, menu) => {
+    this.setState({ topMenu, topRecipes: null });
+    // this.props.getTopRecipes(menu);
   }
 
   renderTopRecipes() {
     const topRecipesMenu = { 1: 'Main Course', 2: 'Side Dish', 3: 'Appetizer', 4: 'Breakfast', 5: 'Dessert', 6: 'Sauce', 7: 'Drink'};
     const menu = _.map(topRecipesMenu, (val,id) => {
       return (
-        <li key={id} id={id} className={this.state.topMenu === id ? 'selected' : ''}><span>&mdash;</span>{val}</li>
+        <li key={id} id={id} onClick={()=> this.chooseMenu(id, val)} className={this.state.topMenu === id ? 'selected' : ''}><span>&mdash;</span>{val}</li>
       )
     });
     return (
@@ -82,7 +89,6 @@ class HomePage extends Component {
             {menu}
           </div>
           <div id="sample-course" className="sample-course">
-            {/* <FoodCard /> */}
             {this.renderFoodCard()}
           </div>
         </div>
@@ -100,34 +106,40 @@ class HomePage extends Component {
     );
   }
 
+  renderPopularRecipes() {
+    return (
+      <div className="popular-cuisine-container">
+        <div className="box-cuisine">
+          <div className="box-header">
+            <label>POPULAR CUISINES</label>
+            <div>
+              <button><i className="fas fa-chevron-left"></i></button>
+              <button><i className="fas fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <label>American Food</label>
+          <p>Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien metus, scelerisque nec pharetra id, tempor a tortor. Pellentesque non dignissim neque. Ut porta viverra est, ut dignissim elit elementum ut. Nunc vel rhoncus nibh, ut tincidunt turpis. Integer ac enim pellentesque, adipiscing metus id, pharetra odio. Donec bibendum nunc sit amet tortor scelerisque luctus et sit amet mauris. Suspendisse felis sem, condimentum ullamcorper est sit amet, molestie mollis nulla. Etiam lorem orci, consequat ac magna quis, facilisis vehicula neque.</p>
+          <div className="see-more">
+            <label>See More</label>
+            <div></div>
+          </div>
+        </div>
+        <div className="list-image-cuisine">
+          <img src={popularCuisine1} alt="food1"/>
+          <img src={popularCuisine2} alt="food2"/>
+          <img src={popularCuisine1} alt="food3"/>
+          <img src={popularCuisine2} alt="food4"/>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <WrapperHomeStyle>
         <img src={banner} alt="banner" style={{width: '100%', marginTop: '-100px'}}/>
         {this.renderTopRecipes()}
-        <div className="popular-cuisine-container">
-          <div className="box-cuisine">
-            <div className="box-header">
-              <label>POPULAR CUISINES</label>
-              <div>
-                <button><i className="fas fa-chevron-left"></i></button>
-                <button><i className="fas fa-chevron-right"></i></button>
-              </div>
-            </div>
-            <label>American Food</label>
-            <p>Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien metus, scelerisque nec pharetra id, tempor a tortor. Pellentesque non dignissim neque. Ut porta viverra est, ut dignissim elit elementum ut. Nunc vel rhoncus nibh, ut tincidunt turpis. Integer ac enim pellentesque, adipiscing metus id, pharetra odio. Donec bibendum nunc sit amet tortor scelerisque luctus et sit amet mauris. Suspendisse felis sem, condimentum ullamcorper est sit amet, molestie mollis nulla. Etiam lorem orci, consequat ac magna quis, facilisis vehicula neque.</p>
-            <div className="see-more">
-              <label>See More</label>
-              <div></div>
-            </div>
-          </div>
-          <div className="list-image-cuisine">
-            <img src={popularCuisine1} alt="food1"/>
-            <img src={popularCuisine2} alt="food2"/>
-            <img src={popularCuisine1} alt="food3"/>
-            <img src={popularCuisine2} alt="food4"/>
-          </div>
-        </div>
+        {this.renderPopularRecipes()}
       </WrapperHomeStyle>
     );
   }

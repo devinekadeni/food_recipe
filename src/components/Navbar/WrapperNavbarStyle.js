@@ -60,6 +60,10 @@ const Wrapper = styled.div`
       font-family: DomaineDispNar;
       font-weight: bold;
       letter-spacing: 1.2px;
+
+      :hover {
+        background-color: rgba(226, 226, 226, 0.5);
+      }
     }
   }
 

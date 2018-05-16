@@ -11,7 +11,10 @@ class FoodCard extends Component {
     const { image, title, readyInMinutes, id } = this.props.data;
     return (
       <WrapperFoodCardStyle>
-        <div className="img-card" onClick={this.props.onHover(id)}>
+        <div 
+          className="img-card" 
+          // onClick={this.props.onHover(id)}
+        >
           <img className="food-img" src={`${imageBaseURL}${image}`} alt="top-food_1"/>
           <div className="ingredients">
             <li><span>1 ons</span> white mushrooms</li>
