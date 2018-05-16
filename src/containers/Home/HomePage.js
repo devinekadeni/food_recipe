@@ -23,7 +23,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    // this.props.getTopRecipes('main course');
+    this.props.getTopRecipes('main course');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,7 +71,7 @@ class HomePage extends Component {
 
   chooseMenu = (topMenu, menu) => {
     this.setState({ topMenu, topRecipes: null });
-    // this.props.getTopRecipes(menu);
+    this.props.getTopRecipes(menu);
   }
 
   renderTopRecipes() {

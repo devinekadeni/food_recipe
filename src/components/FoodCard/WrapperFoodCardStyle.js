@@ -59,12 +59,18 @@ const Wrapper = styled.div`
 
           :hover {
             cursor: pointer;
+            color: #d8d6d6;
           }
         }
 
         div {
           width: 30px;
           border-top: solid white 2px;
+          transition: all 0.5s ease-out;
+        }
+
+        :hover div {
+          width: 80px
         }
       }
       
