@@ -1,0 +1,27 @@
+{
+    "results":[
+        {
+            "id":723984,
+            "title":"Cabbage Salad with Peanuts",
+            "readyInMinutes":15,
+            "servings":2,
+            "image":"cabbage-salad-with-peanuts-723984.jpg",
+            "imageUrls":["cabbage-salad-with-peanuts-723984.jpg"]
+        },
+        {
+            "id":482788,"title":"Garlicky Pasta with Swiss Chard and Beans","readyInMinutes":35,"servings":4,"image":"Garlicky-Pasta-with-Swiss-Chard-and-Beans-482788.jpg","imageUrls":["Garlicky-Pasta-with-Swiss-Chard-and-Beans-482788.jpg"]
+        },{
+            "id":482574,"title":"Slow Cooker Vegetarian Chili with Butternut Squash","readyInMinutes":250,"servings":4,"image":"Slow-Cooker-Vegetarian-Chili-with-Butternut-Squash-482574.jpg","imageUrls":["Slow-Cooker-Vegetarian-Chili-with-Butternut-Squash-482574.jpg"]
+        },{
+            "id":695646,"title":"Steak & Potato Kebabs with Creamy Cilantro Sauce for Two","readyInMinutes":40,"servings":2,"image":"steak-potato-kebabs-with-creamy-cilantro-sauce-for-two-695646.jpg","imageUrls":["steak-potato-kebabs-with-creamy-cilantro-sauce-for-two-695646.jpg"]
+        },{
+            "id":551484,"title":"blackened salmon tacos with cilantro yogurt sauce","readyInMinutes":45,"servings":2,"image":"blackened-salmon-tacos-with-cilantro-yogurt-sauce-551484.jpg","imageUrls":["blackened-salmon-tacos-with-cilantro-yogurt-sauce-551484.jpg"]
+        },{
+            "id":199544,"title":"Stir Fried Pork and Cabbage with Black Bean Sauce","readyInMinutes":30,"servings":3,"image":"Stir-Fried-Pork-and-Cabbage-with-Black-Bean-Sauce-199544.jpg","imageUrls":["Stir-Fried-Pork-and-Cabbage-with-Black-Bean-Sauce-199544.jpg"]},{"id":610524,"title":"Cedar-Planked Salmon with Fresh Sorrel Sauce","readyInMinutes":35,"servings":6,"image":"Cedar-Planked-Salmon-with-Fresh-Sorrel-Sauce-610524.jpg","imageUrls":["Cedar-Planked-Salmon-with-Fresh-Sorrel-Sauce-610524.jpg"]},{"id":146557,"title":"Liver and Onions W/ Gravy","readyInMinutes":30,"servings":4,"image":"liver-and-onions-w_-gravy-2-146557.jpg","imageUrls":["liver-and-onions-w_-gravy-2-146557.jpg","liver_and_onions_w_gravy-146557.jpg"]},{"id":222985,"title":"Leeky salmon in a parcel","readyInMinutes":20,"servings":2,"image":"Leeky-salmon-in-a-parcel-222985.jpg","imageUrls":["Leeky-salmon-in-a-parcel-222985.jpg"]},{"id":695539,"title":"Lasagna with Slow-Roasted Tomato Sauce","readyInMinutes":240,"servings":10,"image":"lasagna-with-slow-roasted-tomato-sauce-695539.jpg","imageUrls":["lasagna-with-slow-roasted-tomato-sauce-695539.jpg"]},{"id":609091,"title":"Three Bean Greek Kale Salad","readyInMinutes":10,"servings":4,"image":"Three-Bean-Greek-Kale-Salad-609091.jpg","imageUrls":["Three-Bean-Greek-Kale-Salad-609091.jpg"]}],
+    "baseUri":"https://spoonacular.com/recipeImages/",
+    "offset":0,
+    "number":11,
+    "totalResults":318,
+    "processingTimeMs":458,
+    "expires":1526623170285,
+    "isStale":false}

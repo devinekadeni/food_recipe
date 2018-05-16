@@ -1,9 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
   max-width: 262px;
   margin-right: 42px;
+  position: relative;
+  height: 380px;
 
   .img-card {
     position: relative;  
@@ -15,7 +17,8 @@ const Wrapper = styled.div`
     }
 
     .food-img {
-      max-width: 262px;
+      width: 262px;
+      height: 262px;
     }
     
     .ingredients {
@@ -74,7 +77,7 @@ const Wrapper = styled.div`
 
   .food-name {
     font-family: DomaineDispNar-Bold;
-    font-size: 18px
+    font-size: 16px
     letter-spacing: 1.1px;
   }
 
@@ -84,6 +87,8 @@ const Wrapper = styled.div`
     color: #bd7133;
     font-size: 14px;
     letter-spacing: 0.9px;
+    bottom: 0;
+    position: absolute;
   }
 
 `;

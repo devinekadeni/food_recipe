@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+
+import { fetchTopRecipes, fetchIngredientsTopRecipes } from '../../actions/index';
+
 import FoodCard from '../../components/FoodCard/FoodCard';
 import WrapperHomeStyle from './WrapperHomeStyle';
 
@@ -6,10 +11,24 @@ import banner from '../../assets/images/banner.png';
 import popularCuisine1 from '../../assets/images/popular_cuisine_1.png';
 import popularCuisine2 from '../../assets/images/popular_cuisine_2.png';
 
+// import APITopRecipe from '../../api/SampleAPITopRecipe.json';
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {  };
+    this.state = {
+      topRecipes: null,
+      topMenu: '1'
+    };
+  }
+
+  componentDidMount() {
+    // this.props.getTopRecipes('main course');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ topRecipes: nextProps.mealTypeList.results });
+    console.log(nextProps.mealTypeList);
   }
 
   moveLeft = () => {
@@ -20,33 +39,51 @@ class HomePage extends Component {
     document.getElementById('sample-course').scrollLeft += 800;
   }
 
+  fetchingFoodCard = () => {
+    if(!this.state.topRecipes) {
+      return null;
+    }
+      // const newState = _.map(this.state.topRecipes, (val, i) => {
+        // return i;
+        // return this.props.getIngredients(i);
+      // })
+        // console.log(newState);
+  }
+
+  renderFoodCard() {
+    if(!this.state.topRecipes) {
+      return <div>Fetching...</div>
+    }else {
+      return _.map(this.state.topRecipes, (value, index) => 
+      <FoodCard 
+        // onHover={this.props.getIngredients} 
+        key={index} 
+        data={value}
+      />);
+    }
+  }
+
+  chooseMenu = () => {
+
+  }
+
   renderTopRecipes() {
+    const topRecipesMenu = { 1: 'Main Course', 2: 'Side Dish', 3: 'Appetizer', 4: 'Breakfast', 5: 'Dessert', 6: 'Sauce', 7: 'Drink'};
+    const menu = _.map(topRecipesMenu, (val,id) => {
+      return (
+        <li key={id} id={id} className={this.state.topMenu === id ? 'selected' : ''}><span>&mdash;</span>{val}</li>
+      )
+    });
     return (
       <div className="top-recipes-container">
         <h1>Top Recipes</h1>
         <div className="list-top-recipes">
           <div className="main-course">
-            <h3><span>&mdash;</span> Main Course</h3>
-            <li>Side Dish</li>
-            <li>Appetizer</li>
-            <li>Breakfast</li>
-            <li>Dessert</li>
-            <li>Sauce</li>
-            <li>Drink</li>
+            {menu}
           </div>
           <div id="sample-course" className="sample-course">
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
-            <FoodCard />
+            {/* <FoodCard /> */}
+            {this.renderFoodCard()}
           </div>
         </div>
         <div className="footer-top-recipes">
@@ -66,7 +103,7 @@ class HomePage extends Component {
   render() {
     return (
       <WrapperHomeStyle>
-        <img src={banner} style={{width: '100%', marginTop: '-100px'}}/>
+        <img src={banner} alt="banner" style={{width: '100%', marginTop: '-100px'}}/>
         {this.renderTopRecipes()}
         <div className="popular-cuisine-container">
           <div className="box-cuisine">
@@ -96,4 +133,17 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+const mapStateToProps = state => {
+  return {
+    mealTypeList: state.MealTypeList.payload.data,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getTopRecipes: (type) => dispatch(fetchTopRecipes(type)),
+    getIngredients: (id) => dispatch(fetchIngredientsTopRecipes(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

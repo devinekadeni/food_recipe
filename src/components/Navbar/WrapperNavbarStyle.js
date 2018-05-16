@@ -1,19 +1,25 @@
-import React from 'react';
+// import React from 'react';
 import styled from 'styled-components';
+
 
 const Wrapper = styled.div`
   z-index: 1;
   box-sizing: border-box;
   display: flex;
-  padding: 25px 100px 0 100px;
+  padding: 25px 100px 25px 100px;
   position: sticky;
   top: 0;
   background: linear-gradient(white, transparent);
   font-size: 1em;
+  transition: all 0.5s;
 
   a {
     text-decoration: none;
     color: black;
+
+    :hover {
+      color: grey;
+    }
   }
 
   .logo-icon {

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import styled from 'styled-components';
 import cuisineBanner from '../../assets/images/popular_cuisine_banner.png';
 
@@ -33,6 +33,11 @@ const Wrapper = styled.div`
         }
 
         span {
+          display: none;
+        }
+
+        .selected span {
+          display: inline;
           color: #bd7133;
         }
       }
@@ -41,7 +46,7 @@ const Wrapper = styled.div`
         display: flex;
         flex: 4;
         flex-direction: row;
-        overflow: hidden;
+        overflow: scroll;
         
       }
     }
