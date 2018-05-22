@@ -24,7 +24,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     const localTopRecipesData = JSON.parse(localStorage.getItem('top_recipes'));
-    if(Object.keys(localTopRecipesData).length>0) {
+    if(localTopRecipesData) {
       this.setState({ topRecipes: localTopRecipesData });
     }else {
       console.log('hit api get main course')
