@@ -18,18 +18,26 @@ class HomePage extends Component {
     super(props);
     this.state = {
       topRecipes: null,
-      topMenu: '1'
+      topMenu: 'Main Course',
     };
   }
 
   componentDidMount() {
-    // this.props.getTopRecipes('main course');
+    const localTopRecipesData = JSON.parse(localStorage.getItem('top_recipes'));
+    if(Object.keys(localTopRecipesData).length>0) {
+      this.setState({ topRecipes: localTopRecipesData });
+    }else {
+      console.log('hit api get main course')
+      this.props.getTopRecipes('main course');
+    }
+    // console.log('local',localTopRecipesData);
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.mealTypeList.results) {
       this.setState({ topRecipes: nextProps.mealTypeList.results });
-      console.log(nextProps.mealTypeList);
+      localStorage.setItem('top_recipes', JSON.stringify(nextProps.mealTypeList.results));
+      // console.log('next',nextProps.mealTypeList.results);
     }
   }
 
@@ -60,6 +68,7 @@ class HomePage extends Component {
         </div>
       )
     }else {
+      console.log('food card',this.state.topRecipes)
       return _.map(this.state.topRecipes, (value, index) => 
       <FoodCard 
         // onHover={this.props.getIngredients} 
@@ -69,16 +78,29 @@ class HomePage extends Component {
     }
   }
 
-  chooseMenu = (topMenu, menu) => {
-    this.setState({ topMenu, topRecipes: null });
+  chooseMenu = (menu) => {
+    this.setState({ topMenu: menu });
+    // this.setState({ topMenu: menu, topRecipes: null });
     // this.props.getTopRecipes(menu);
   }
 
+  onChangeSelector = (e) => {
+    this.setState({ topMenu: e.target.value });
+    // this.setState({ topMenu: e.target.value, topRecipes: null });
+    // this.props.getTopRecipes(e.target.value);
+  }
+
   renderTopRecipes() {
-    const topRecipesMenu = { 1: 'Main Course', 2: 'Side Dish', 3: 'Appetizer', 4: 'Breakfast', 5: 'Dessert', 6: 'Sauce', 7: 'Drink'};
-    const menu = _.map(topRecipesMenu, (val,id) => {
+    const topRecipesMenu = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
+    const menu = topRecipesMenu.map((val,id) => {
       return (
-        <li key={id} id={id} onClick={()=> this.chooseMenu(id, val)} className={this.state.topMenu === id ? 'selected' : ''}><span>&mdash;</span>{val}</li>
+        <li 
+          key={id} id={id} 
+          onClick={()=> this.chooseMenu(val)} 
+          className={this.state.topMenu === val ? 'selected' : ''}>
+            <span>&mdash;</span>
+            {val}
+      </li>
       )
     });
     return (
@@ -87,6 +109,11 @@ class HomePage extends Component {
         <div className="list-top-recipes">
           <div className="main-course">
             {menu}
+            <select onChange={this.onChangeSelector} className="main-course-selector">
+              {topRecipesMenu.map((val,id) => {
+                return <option key={id} value={val}>{val}</option>
+              })}
+            </select>
           </div>
           <div id="sample-course" className="sample-course">
             {this.renderFoodCard()}
@@ -124,12 +151,12 @@ class HomePage extends Component {
             <div></div>
           </div>
         </div>
-        <div className="list-image-cuisine">
+        {/* <div className="list-image-cuisine">
           <img src={popularCuisine1} alt="food1"/>
           <img src={popularCuisine2} alt="food2"/>
           <img src={popularCuisine1} alt="food3"/>
           <img src={popularCuisine2} alt="food4"/>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -137,9 +164,10 @@ class HomePage extends Component {
   render() {
     return (
       <WrapperHomeStyle>
-        <img src={banner} alt="banner" style={{width: '100%', marginTop: '-100px'}}/>
+        <img src={banner} alt="banner" style={{width: '100%', marginTop: '-5em'}}/>
         {this.renderTopRecipes()}
         {this.renderPopularRecipes()}
+        <div style={{height:'1000px'}}></div>
       </WrapperHomeStyle>
     );
   }

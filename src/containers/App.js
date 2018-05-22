@@ -22,25 +22,25 @@ class App extends Component {
     // }
     window.addEventListener('scroll', this.handleScroll);
 
-    console.log('scroll',this.state.scroll);
+    // console.log('scroll',this.state.scroll);
   }
 
   componentWillUpdate() {
-    console.log('scroll',this.state.scroll);
+    // console.log('scroll',this.state.scroll);
   }
 
   componentDidUpdate() {
-    console.log('scroll',this.state.scroll);    
+    // console.log('scroll',this.state.scroll);    
   }
 
   checkScroll = () => {
     this.setState({ scroll: window.pageYOffset});
-    console.log('scroll', this.state.scroll);
-    console.log('scroll', window.pageYOffset);
+    // console.log('scroll', this.state.scroll);
+    // console.log('scroll', window.pageYOffset);
   }
 
   handleScroll = (event) => {
-    console.log('the scroll things', event.target.scrollingElement.scrollTop);
+    // console.log('the scroll things', event.target.scrollingElement.scrollTop);
     if(event.target.scrollingElement.scrollTop > 300) {
       document.getElementById('navbar').style.background = 'white';
       document.getElementById('navbar').style.boxShadow = '0px 5px 20px #d8d6d6';      
@@ -59,6 +59,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomePage}/>
           </Switch>
+          <div className="modal-burger-menu"></div>
         </div>
       </BrowserRouter>
     );

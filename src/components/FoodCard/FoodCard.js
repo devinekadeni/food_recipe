@@ -27,7 +27,7 @@ class FoodCard extends Component {
             </div>
           </div>
         </div>
-        <p className="food-name">{title}</p>
+        <p className={title.length>57 ? 'food-name-long' : 'food-name-short'}>{title}</p>
         <p className="food-category">{`Ready in ${readyInMinutes} Min`}</p>
       </WrapperFoodCardStyle>
     );

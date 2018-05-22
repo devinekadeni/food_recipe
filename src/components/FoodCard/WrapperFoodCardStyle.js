@@ -2,10 +2,15 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  max-width: 262px;
-  margin-right: 42px;
+  font-size: 1rem;
+  max-width: 14.5em;
+  margin-right: 2.3em;
   position: relative;
-  height: 380px;
+  height: 21.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
 
   .img-card {
     position: relative;  
@@ -17,8 +22,8 @@ const Wrapper = styled.div`
     }
 
     .food-img {
-      width: 262px;
-      height: 262px;
+      width: 14.5em;
+      height: 14em;
     }
     
     .ingredients {
@@ -29,14 +34,14 @@ const Wrapper = styled.div`
       height: 100%;
       opacity: 0;
       transition: opacity 0.5s;
-      padding: 50px 30px;
+      padding: 2.7em 1.6em;
       box-sizing: border-box;
       
       
       li {
         list-style: none;
         color: white;
-        font-size: 12px;
+        font-size: 0.6em;
         line-height: 1.83;
         letter-spacing: 1.5px;
 
@@ -47,15 +52,15 @@ const Wrapper = styled.div`
 
       .see-detail {
         position: absolute;
-        bottom: 35px;
+        bottom: 1.94em;
 
         label {
           font-family: DomaineDispNar;
           font-style: italic;
-          font-size: 14px;
+          font-size: 0.7em;
           line-height: 1.5;
           color: white;
-          top: 20px;
+          top: 1.1em;
 
           :hover {
             cursor: pointer;
@@ -64,13 +69,13 @@ const Wrapper = styled.div`
         }
 
         div {
-          width: 30px;
+          width: 1.6em;
           border-top: solid white 2px;
           transition: all 0.5s ease-out;
         }
 
         :hover div {
-          width: 80px
+          width: 4.4em
         }
       }
       
@@ -81,20 +86,38 @@ const Wrapper = styled.div`
     
   }  
 
-  .food-name {
+  .food-name-short {
     font-family: DomaineDispNar-Bold;
-    font-size: 16px
+    font-size: 0.9em
     letter-spacing: 1.1px;
+    line-height: 1.5;
+    overflow:hidden;
+  }
+
+  .food-name-long {
+    font-family: DomaineDispNar-Bold;
+    font-size: 0.9em
+    letter-spacing: 1.1px;
+    line-height: 1.5;
+    text-align: justify;
+    overflow: hidden;
+    position: relative;
+
+    :before {
+      content: '...';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background: white;
+    }
   }
 
   .food-category {
     font-family: Gotham-Book-Medium;
     font-style: italic;
     color: #bd7133;
-    font-size: 14px;
+    font-size: 0.78em;
     letter-spacing: 0.9px;
-    bottom: 0;
-    position: absolute;
   }
 
 `;

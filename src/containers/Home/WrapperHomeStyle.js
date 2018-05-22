@@ -3,24 +3,26 @@ import styled from 'styled-components';
 import cuisineBanner from '../../assets/images/popular_cuisine_banner.png';
 
 const Wrapper = styled.div`
+  font-size: 1rem;
   position: relative;
-  transition: all 4s;
 
   .top-recipes-container {
-    padding-left: 100px;
+    padding-left: 5.5em;
     display: flex;
     flex-direction: column;
-    margin-bottom: 90px;
+    margin-bottom: 5em;
     
     h1 {
       font-family: DomaineDispNar-Bold;
       letter-spacing: 2.1px;
-      margin-top: 100px;
+      margin-top: 5.5em;
+      font-size: 1em;
     }
 
     .list-top-recipes {
       display: flex;
       flex-direction: row;
+      transition: hover 4s;
 
       .main-course {
         display: flex;
@@ -28,9 +30,21 @@ const Wrapper = styled.div`
         flex-direction: column;
         list-style: none;
 
+        .main-course-selector { 
+          display:none;
+          width: 35%;
+          font-family: Gotham-Book-Medium;
+          font-size: 0.8em;
+          margin-bottom: 2em;
+          border-color: #bd7133;
+          border-radius: 0.5em;
+          padding: 0.4em 0.7em;
+        }
         li {
-          padding: 10px 0;
+          padding: 0.5em 0;
           transition: all 0.3s;
+          font-size: 0.9em;
+          margin-right: 1em;
 
           :hover {
             cursor: pointer;
@@ -43,14 +57,15 @@ const Wrapper = styled.div`
         }
 
         li.selected {
-          font-size: 16px;
+          font-size: 1em;
           font-family: Gotham-Book-Bold;
+          background-color: rgba(226, 226, 226, 0.6)
         }
 
         .selected span {
           display: inline;
           color: #bd7133;
-          margin-right: 10px;
+          margin-right: 0.5em;
         }
       }
 
@@ -88,7 +103,7 @@ const Wrapper = styled.div`
           cursor: pointer;
 
           div {
-            width: 100px;
+            width: 5.5em;
           }
         }
       }
@@ -100,31 +115,32 @@ const Wrapper = styled.div`
         button {
           background-color: white;
           border: solid 1px #cccccc;
-          margin-right: 10px;
+          margin-right: 0.5em;
           color: #cccccc;
-          width: 30px;
-          height: 35px;
+          width: 1.6em;
+          height: 1.94em;
         }
       }
     }
   }
   
   .popular-cuisine-container {
-    height: 600px;
+    box-sizing: border-box;
+    width: 100%;
     background-image: url(${cuisineBanner});
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 100% 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    padding: 69px 100px 0 0;
+    padding: 4em 6em 4em 0;
 
     .box-cuisine {
       box-sizing: border-box;
       background-color: white;
-      max-width: 463px;
-      height: 463px;
-      padding: 50px 40px 75px 45px;
+      width: 25.72em;
+      height: 25.72em;
+      padding: 2.7em 2.2em 4.16em 2.5em;
       display: flex;
       flex-direction: column;
 
@@ -135,36 +151,46 @@ const Wrapper = styled.div`
         align-items: center;
 
         label {
-          font-size: 14px;
+          font-size: 0.8em;
           letter-spacing: 1.8px;
+          font-family: Gotham-Book-Medium;
         }
 
         button {
           background-color: white;
           border: solid 1px #cccccc;
-          margin-right: 10px;
+          margin-right: 0.5em;
           color: #cccccc;
-          height: 35px;
-          width: 30px;
+          height: 1.94em;
+          width: 1.6em;
         }
       }
 
       > label {
         font-family: DomaineDispNar-Bold;
-        font-size: 36px;
-        letter-spacing: 2.1px;
+        font-size: 2em;
+        letter-spacing: 0.117em;
         color: #bd7133;
-        margin-top: 10px;
+        margin-top: 0.5em;
       }
 
       p {
-        height: 102px;
+        max-height: 6.8em;
         font-family: Gotham-Book;
-        font-size: 14px;
-        line-height: 24px;
+        font-size: 0.8em;
+        line-height: 1.8em;
         letter-spacing: 0.8px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-align: justify;
+        position: relative;
+
+        :before {
+          content: '....';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background: white;
+        }
       }
 
       .see-more {
@@ -174,27 +200,39 @@ const Wrapper = styled.div`
         font-family: DomaineDispNar-Bold;
         font-style: italic;
         align-items: flex-end;
-        padding-right: 25px;
+        padding-right: 1.38em;
         justify-content: flex-end;
 
         div {
           border-top: solid #bd7133 2px;
-          width: 40px;
+          width: 2.2em;
         }
       }
     }
 
     .list-image-cuisine {
       position: absolute;
-      bottom: 165px;
-      right: 240px;
+      bottom: 9.16;
+      right: 13.3em;
 
       img {
-        width: 240px;
+        width: 13.3em;
       }
     }
   }
 
+  @media only screen and (max-width: 576px) {
+    .top-recipes-container {
+      .list-top-recipes {
+        display: flex;
+        flex-direction: column;
+
+        .main-course > li { display: none; }
+        .main-course .main-course-selector { display: block; };
+      }
+    }
+    
+  }
 `;
 
 export default Wrapper;
