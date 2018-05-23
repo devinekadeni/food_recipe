@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content:space-between;
   align-items: center;
   z-index: 1;
-  padding: 1.38em 5.5em;
+  padding: 1.38em 6.25em;
   position: sticky;
   top: 0;
   background: linear-gradient(white, transparent);
@@ -76,9 +76,11 @@ const Wrapper = styled.div`
     }
   }
 
-  @media only screen and (max-width: 576px){
+  @media only screen and (max-width: 768px){
     display: flex;
     justify-content:space-between;
+    padding: 1.38em 3.125em;
+
     .burger-icon { display: flex }
     .navbar-left > .logo-icon { margin-right: 0px; color: red }
 

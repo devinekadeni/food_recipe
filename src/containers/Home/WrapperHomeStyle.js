@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   position: relative;
 
   .top-recipes-container {
-    padding-left: 5.5em;
+    padding-left: 6.25em;
     display: flex;
     flex-direction: column;
     margin-bottom: 5em;
@@ -15,8 +15,9 @@ const Wrapper = styled.div`
     h1 {
       font-family: DomaineDispNar-Bold;
       letter-spacing: 2.1px;
-      margin-top: 5.5em;
-      font-size: 1em;
+      margin-top: 7.5rem;
+      font-size: 2.25em;
+      margin-bottom: 2.5rem;
     }
 
     .list-top-recipes {
@@ -32,9 +33,9 @@ const Wrapper = styled.div`
 
         .main-course-selector { 
           display:none;
-          width: 35%;
+          width: 50%;
           font-family: Gotham-Book-Medium;
-          font-size: 0.8em;
+          font-size: 1.2em;
           margin-bottom: 2em;
           border-color: #bd7133;
           border-radius: 0.5em;
@@ -43,7 +44,7 @@ const Wrapper = styled.div`
         li {
           padding: 0.5em 0;
           transition: all 0.3s;
-          font-size: 0.9em;
+          font-size: 1em;
           margin-right: 1em;
 
           :hover {
@@ -73,7 +74,7 @@ const Wrapper = styled.div`
         display: flex;
         flex: 4;
         flex-direction: row;
-        overflow: scroll;
+        overflow-x: scroll;
         
       }
     }
@@ -134,6 +135,7 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     padding: 4em 6em 4em 0;
+    position: relative;
 
     .box-cuisine {
       box-sizing: border-box;
@@ -211,9 +213,14 @@ const Wrapper = styled.div`
     }
 
     .list-image-cuisine {
+      box-sizing: unset;
       position: absolute;
-      bottom: 9.16;
-      right: 13.3em;
+      bottom: 6em;
+      right: 13.5em;
+      width: 54em;
+      height: 8em;
+      display: flex;
+      flex-direction: row;
 
       img {
         width: 13.3em;
@@ -221,8 +228,20 @@ const Wrapper = styled.div`
     }
   }
 
-  @media only screen and (max-width: 576px) {
+  @media only screen and (max-width: 1024px) {
+    .popular-cuisine-container {
+      .list-image-cuisine {
+        box-sizing: border-box;
+        width: 40em;
+        overflow: scroll;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
     .top-recipes-container {
+      padding-left: 3.125em;
+
       .list-top-recipes {
         display: flex;
         flex-direction: column;
@@ -232,6 +251,53 @@ const Wrapper = styled.div`
       }
     }
     
+    .popular-cuisine-container {
+      justify-content: center;
+      padding: 4em 0;
+
+      .box-cuisine {
+        padding: 2.7em 2.2em 0 2.5em;
+        height: 27em;
+
+        .see-more {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          font-family: DomaineDispNar-Bold;
+          font-style: italic;
+          align-items: flex-end;
+          padding-right: 0;
+          padding-bottom: 1em;
+          justify-content: flex-end;
+  
+          div {
+            border-top: solid #bd7133 2px;
+            width: 2.2em;
+          }
+        }
+      }
+
+      .list-image-cuisine {
+        bottom: 7em;
+        right: unset;
+        margin: auto;
+        box-sizing: border-box;
+        overflow: scroll;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    .popular-cuisine-container {
+      .list-image-cuisine {
+        bottom: 7em;
+        right: unset;
+        margin: unset;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: scroll;
+      }
+    }
   }
 `;
 

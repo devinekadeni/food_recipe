@@ -151,12 +151,12 @@ class HomePage extends Component {
             <div></div>
           </div>
         </div>
-        {/* <div className="list-image-cuisine">
+        <div className="list-image-cuisine">
           <img src={popularCuisine1} alt="food1"/>
           <img src={popularCuisine2} alt="food2"/>
           <img src={popularCuisine1} alt="food3"/>
           <img src={popularCuisine2} alt="food4"/>
-        </div> */}
+        </div>
       </div>
     )
   }

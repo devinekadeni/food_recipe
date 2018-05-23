@@ -88,7 +88,7 @@ const Wrapper = styled.div`
 
   .food-name-short {
     font-family: DomaineDispNar-Bold;
-    font-size: 0.9em
+    font-size: 1.125em
     letter-spacing: 1.1px;
     line-height: 1.5;
     overflow:hidden;
@@ -96,7 +96,7 @@ const Wrapper = styled.div`
 
   .food-name-long {
     font-family: DomaineDispNar-Bold;
-    font-size: 0.9em
+    font-size: 1.125em
     letter-spacing: 1.1px;
     line-height: 1.5;
     text-align: justify;
@@ -116,7 +116,7 @@ const Wrapper = styled.div`
     font-family: Gotham-Book-Medium;
     font-style: italic;
     color: #bd7133;
-    font-size: 0.78em;
+    font-size: 0.875em;
     letter-spacing: 0.9px;
   }
 
