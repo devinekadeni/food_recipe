@@ -155,6 +155,7 @@ const Wrapper = styled.div`
   .popular-cuisine-container {
     box-sizing: border-box;
     width: 100%;
+    min-height: 25em;
     background-image: url(${cuisineBanner});
     background-repeat: no-repeat;
     background-size: 100% 100%;

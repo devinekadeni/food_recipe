@@ -12,6 +12,7 @@ import banner from '../../assets/images/banner.png';
 import popularCuisine1 from '../../assets/images/popular_cuisine_1.png';
 import popularCuisine2 from '../../assets/images/popular_cuisine_2.png';
 import { imageBaseURL } from '../../api/ApiConfig';
+import cuisineBanner from '../../assets/images/popular_cuisine_banner.png';
 
 // import APITopRecipe from '../../api/SampleAPITopRecipe.json';
 const TOP_RECIPES_MENU = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
@@ -72,7 +73,7 @@ class HomePage extends Component {
       return { topRecipes: nextProps.topRecipes.results }
     }
 
-    if(nextProps.popularRecipes) {
+    if(nextProps.popularRecipes && !prevState.popularRecipes) {
       localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
       // localStorage.setItem('top_menu', prevState.topMenu);
       return { popularRecipes: nextProps.popularRecipes.results }
@@ -127,19 +128,22 @@ class HomePage extends Component {
     if(!this.state.topRecipes) {
       return (
         <div style={{display:'flex', justifyContent: 'center', alignItems: 'center', flex: 1}}>
-          <i className="fas fa-spinner fa-spin fa-5x"></i>
+          <span><i className="fas fa-spinner fa-pulse fa-5x"></i></span>
         </div>
       )
     }else {
       console.log('food card',this.state.topRecipes)
-      let num = 1;
-      return _.map(this.state.topRecipes, (value, index) => 
+      let num = 0;
+      return _.map(this.state.topRecipes, (value, index) => {
+        num += 1;
+        return (
       <FoodCard 
         // onHover={this.props.getIngredients}
         id={`foodCard${num}`}
         key={index} 
         data={value}
-      />);
+      />)
+    });
     }
   }
 
@@ -220,13 +224,7 @@ class HomePage extends Component {
   }
 
   renderPopularRecipes() {
-    if(!this.state.popularRecipes) {
-      return (
-        <div className="popular-cuisine-container" style={{width: '100%', height: '500px', justifyContent: 'center' }}>
-          <i className="fas fa-spinner fa-spin fa-10x" style={{color:'black', alignSelf: 'center'}}></i>          
-        </div>
-      )
-    } else {
+    if(this.state.popularRecipes) {
       return (
         <div className="popular-cuisine-container">
           <div className="box-cuisine-container">
@@ -240,6 +238,14 @@ class HomePage extends Component {
         </div>
       )
     }
+    return (
+      <div className="popular-cuisine-container" style={{width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+        {/* // <div className="">Loading</div>          */}
+        <span><i className="fas fa-spinner fa-pulse fa-10x"></i></span>
+      </div>
+    )
+    
+    
   }
 
   render() {
