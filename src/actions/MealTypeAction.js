@@ -1,16 +1,12 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { FETCH_MEAL_TYPE, FETCH_MEAL_TYPE_FAILED, FETCH_MEAL_TYPE_DETAIL } from './types';
-import { APIKey, baseURL } from '../api/ApiConfig';
-
-const headers = {
-  'X-Mashape-Key': APIKey,
-  Accept: 'application/json',
-};
+import { APIKey, baseURL, headers } from '../api/ApiConfig';
 
 export const fetchTopRecipes = (type = '') => {
   const encodedType = encodeURI(type);
   return (dispatch) => {
+    console.log('hit api top recipe');
     axios.get(`${baseURL}search?instructionsRequired&number=11&offset=0&query=<required>&type=${encodedType}`, {headers})
       .then(response => {
         const newResponse = { ...response, 
@@ -43,3 +39,4 @@ export const fetchIngredientsTopRecipes = (id) => {
       })
   }
 }
+

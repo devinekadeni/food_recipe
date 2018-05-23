@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { fetchTopRecipes, fetchIngredientsTopRecipes } from '../../actions/index';
+import { fetchTopRecipes, fetchIngredientsTopRecipes } from '../../actions/MealTypeAction';
+import { fetchPopularRecipes } from '../../actions/CuisineTypeAction';
 
 import FoodCard from '../../components/FoodCard/FoodCard';
 import WrapperHomeStyle from './WrapperHomeStyle';
@@ -10,8 +11,11 @@ import WrapperHomeStyle from './WrapperHomeStyle';
 import banner from '../../assets/images/banner.png';
 import popularCuisine1 from '../../assets/images/popular_cuisine_1.png';
 import popularCuisine2 from '../../assets/images/popular_cuisine_2.png';
+import { imageBaseURL } from '../../api/ApiConfig';
 
 // import APITopRecipe from '../../api/SampleAPITopRecipe.json';
+const TOP_RECIPES_MENU = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
+const CUISINE_RECIPES = ['American', 'Chinese', 'Japanese', 'Korean', 'Thai', 'Indian', 'British', 'Italian', 'European', 'Mexican', 'Spanish'];
 
 class HomePage extends Component {
   constructor(props) {
@@ -19,34 +23,93 @@ class HomePage extends Component {
     this.state = {
       topRecipes: null,
       topMenu: 'Main Course',
+      popularRecipes: null,
     };
   }
 
   componentDidMount() {
-    const localTopRecipesData = JSON.parse(localStorage.getItem('top_recipes'));
-    if(localTopRecipesData) {
-      this.setState({ topRecipes: localTopRecipesData });
+    const localTopRecipes = JSON.parse(localStorage.getItem('top_recipes'));
+    const localPopularRecipes = JSON.parse(localStorage.getItem('popular_recipes'));
+    const localTopMenu = localStorage.getItem('top_menu');
+    if(localTopRecipes) {
+      this.setState({ topRecipes: localTopRecipes, topMenu: localTopMenu });
     }else {
-      console.log('hit api get main course')
+      console.log('hit api get top recipes')
       this.props.getTopRecipes('main course');
     }
-    // console.log('local',localTopRecipesData);
+
+    if(localPopularRecipes) {
+      this.setState({ popularRecipes: localPopularRecipes });
+    }else {
+      console.log('hit api get popular recipes')
+      this.props.getPopularRecipes('American');
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.mealTypeList.results) {
-      this.setState({ topRecipes: nextProps.mealTypeList.results });
-      localStorage.setItem('top_recipes', JSON.stringify(nextProps.mealTypeList.results));
-      // console.log('next',nextProps.mealTypeList.results);
+  // componentWillReceiveProps(nextProps) {
+  //   if(nextProps.topRecipes) {
+  //     this.setState({ topRecipes: nextProps.topRecipes.results });
+  //     localStorage.setItem('top_recipes', JSON.stringify(nextProps.topRecipes.results));
+  //     localStorage.setItem('top_menu', this.state.topMenu);
+  //     // console.log('next',nextProps.topRecipes.results);
+  //   }
+
+  //   if(nextProps.popularRecipes) {
+  //     this.setState({ popularRecipes: nextProps.popularRecipes.results });
+  //     localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
+  //     // localStorage.setItem('top_menu', this.state.topMenu);
+  //     // console.log('next',nextProps.popularRecipes.results);
+  //   }
+  //   console.log('state popular recipes', this.state.popularRecipes);
+  // }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('derived',nextProps)
+    console.log('prev', prevState)
+    if(nextProps.topRecipes && !prevState.topRecipes) {
+      localStorage.setItem('top_recipes', JSON.stringify(nextProps.topRecipes.results));
+      localStorage.setItem('top_menu', prevState.topMenu);
+      return { topRecipes: nextProps.topRecipes.results }
     }
+
+    if(nextProps.popularRecipes) {
+      localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
+      // localStorage.setItem('top_menu', prevState.topMenu);
+      return { popularRecipes: nextProps.popularRecipes.results }
+    }
+    return null;
+    // console.log('state popular recipes', this.state.popularRecipes);
+  }
+
+  componentDidUpdate(prevProps,prevState,snapshot) {
+    console.log('state popular recipes update', this.state.popularRecipes);
+    console.log('did prevprops',prevProps)
+    console.log('did prevstate',prevState)
+    console.log('did snapshot',snapshot)
   }
 
   moveLeft = () => {
-    document.getElementById('sample-course').scrollLeft -= 800;
+    let size = document.getElementById("foodCard1").offsetWidth;
+    let counter = 0
+    let geser = setInterval(() => { 
+        if(counter>size) {
+          clearInterval(geser);
+        }
+        this.refs.imgTop.scrollLeft -= 10;
+        counter += 10;
+      }, 10);
   }
 
   moveRight = () => {
-    document.getElementById('sample-course').scrollLeft += 800;
+    let size = document.getElementById("foodCard1").offsetWidth;
+    let counter = 0
+    let geser = setInterval(() => { 
+        if(counter>size) {
+          clearInterval(geser);
+        }
+        this.refs.imgTop.scrollLeft += 10;
+        counter += 10;
+      }, 10);
   }
 
   fetchingFoodCard = () => {
@@ -69,9 +132,11 @@ class HomePage extends Component {
       )
     }else {
       console.log('food card',this.state.topRecipes)
+      let num = 1;
       return _.map(this.state.topRecipes, (value, index) => 
       <FoodCard 
-        // onHover={this.props.getIngredients} 
+        // onHover={this.props.getIngredients}
+        id={`foodCard${num}`}
         key={index} 
         data={value}
       />);
@@ -91,8 +156,7 @@ class HomePage extends Component {
   }
 
   renderTopRecipes() {
-    const topRecipesMenu = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
-    const menu = topRecipesMenu.map((val,id) => {
+    const menu = TOP_RECIPES_MENU.map((val,id) => {
       return (
         <li 
           key={id} id={id} 
@@ -110,12 +174,12 @@ class HomePage extends Component {
           <div className="main-course">
             {menu}
             <select onChange={this.onChangeSelector} className="main-course-selector">
-              {topRecipesMenu.map((val,id) => {
+              {TOP_RECIPES_MENU.map((val,id) => {
                 return <option key={id} value={val}>{val}</option>
               })}
             </select>
           </div>
-          <div id="sample-course" className="sample-course">
+          <div id="sample-course" ref="imgTop" className="sample-course">
             {this.renderFoodCard()}
           </div>
         </div>
@@ -133,10 +197,10 @@ class HomePage extends Component {
     );
   }
 
-  renderPopularRecipes() {
-    return (
-      <div className="popular-cuisine-container">
-        <div className="box-cuisine">
+  renderBoxCuisine() {
+    return CUISINE_RECIPES.map((val,id) => {
+      return (
+        <div key={id} className="box-cuisine">
           <div className="box-header">
             <label>POPULAR CUISINES</label>
             <div>
@@ -144,21 +208,38 @@ class HomePage extends Component {
               <button><i className="fas fa-chevron-right"></i></button>
             </div>
           </div>
-          <label>American Food</label>
+          <label>{val} Food</label>
           <p>Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien metus, scelerisque nec pharetra id, tempor a tortor. Pellentesque non dignissim neque. Ut porta viverra est, ut dignissim elit elementum ut. Nunc vel rhoncus nibh, ut tincidunt turpis. Integer ac enim pellentesque, adipiscing metus id, pharetra odio. Donec bibendum nunc sit amet tortor scelerisque luctus et sit amet mauris. Suspendisse felis sem, condimentum ullamcorper est sit amet, molestie mollis nulla. Etiam lorem orci, consequat ac magna quis, facilisis vehicula neque.</p>
           <div className="see-more">
             <label>See More</label>
             <div></div>
           </div>
         </div>
-        <div className="list-image-cuisine">
-          <img src={popularCuisine1} alt="food1"/>
-          <img src={popularCuisine2} alt="food2"/>
-          <img src={popularCuisine1} alt="food3"/>
-          <img src={popularCuisine2} alt="food4"/>
+      )
+    })
+  }
+
+  renderPopularRecipes() {
+    if(!this.state.popularRecipes) {
+      return (
+        <div className="popular-cuisine-container" style={{width: '100%', height: '500px', justifyContent: 'center' }}>
+          <i className="fas fa-spinner fa-spin fa-10x" style={{color:'black', alignSelf: 'center'}}></i>          
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className="popular-cuisine-container">
+          <div className="box-cuisine-container">
+            {this.renderBoxCuisine()}
+          </div>
+          <div className="list-image-cuisine">
+            {_.map(this.state.popularRecipes, val => {
+              return <img key={val.id} src={imageBaseURL+val.image} alt="food1"/>
+            })}
+          </div>
+        </div>
+      )
+    }
   }
 
   render() {
@@ -175,14 +256,16 @@ class HomePage extends Component {
 
 const mapStateToProps = state => {
   return {
-    mealTypeList: state.MealTypeList.payload.data,
+    topRecipes: state.MealTypeList.payload.data,
+    popularRecipes: state.CuisineTypeList.payload.data,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getTopRecipes: (type) => dispatch(fetchTopRecipes(type)),
-    getIngredients: (id) => dispatch(fetchIngredientsTopRecipes(id))
+    getIngredients: (id) => dispatch(fetchIngredientsTopRecipes(id)),
+    getPopularRecipes: (cuisine) => dispatch(fetchPopularRecipes(cuisine)),
   }
 }
 
