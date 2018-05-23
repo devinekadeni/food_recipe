@@ -8,7 +8,7 @@ class FoodCard extends Component {
     this.state = {  };
   }
   render() {
-    const { image, title, readyInMinutes, id } = this.props.data;
+    const { image, title, readyInMinutes } = this.props.data;
     return (
       <WrapperFoodCardStyle>
         <div 

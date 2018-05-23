@@ -9,10 +9,7 @@ import FoodCard from '../../components/FoodCard/FoodCard';
 import WrapperHomeStyle from './WrapperHomeStyle';
 
 import banner from '../../assets/images/banner.png';
-import popularCuisine1 from '../../assets/images/popular_cuisine_1.png';
-import popularCuisine2 from '../../assets/images/popular_cuisine_2.png';
 import { imageBaseURL } from '../../api/ApiConfig';
-import cuisineBanner from '../../assets/images/popular_cuisine_banner.png';
 
 // import APITopRecipe from '../../api/SampleAPITopRecipe.json';
 const TOP_RECIPES_MENU = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
@@ -32,6 +29,7 @@ class HomePage extends Component {
     const localTopRecipes = JSON.parse(localStorage.getItem('top_recipes'));
     const localPopularRecipes = JSON.parse(localStorage.getItem('popular_recipes'));
     const localTopMenu = localStorage.getItem('top_menu');
+    const localPopularMenu = localStorage.getItem('popular_menu');
     if(localTopRecipes) {
       this.setState({ topRecipes: localTopRecipes, topMenu: localTopMenu });
     }else {
@@ -44,6 +42,10 @@ class HomePage extends Component {
     }else {
       console.log('hit api get popular recipes')
       this.props.getPopularRecipes('American');
+    }
+    
+    if(localPopularMenu) {
+      document.getElementById(localPopularMenu).scrollIntoView();
     }
   }
 
@@ -89,28 +91,56 @@ class HomePage extends Component {
     console.log('did snapshot',snapshot)
   }
 
-  moveLeft = () => {
-    let size = document.getElementById("foodCard1").offsetWidth;
+  moveLeft = (id, ref, menu) => {
+    let size = document.getElementById(id).offsetWidth;
     let counter = 0
-    let geser = setInterval(() => { 
-        if(counter>size) {
+    console.log(id);
+    if(size) {
+      let geser = setInterval(() => { 
+        if(counter >= size) {
           clearInterval(geser);
+          if(menu) {
+            console.log('menu',menu)
+            localStorage.setItem('popular_menu', id);
+            // this.setState({ popularRecipes: null });
+            // this.props.getPopularRecipes(menu);
+          }
         }
-        this.refs.imgTop.scrollLeft -= 10;
-        counter += 10;
-      }, 10);
+        for(let i = 0; i<5; i++) {
+          if(counter >= size){
+            break;
+          }
+          this.refs[ref].scrollLeft -= 1;
+          counter += 1;
+        }
+      }, 1);
+    }    
   }
 
-  moveRight = () => {
-    let size = document.getElementById("foodCard1").offsetWidth;
-    let counter = 0
-    let geser = setInterval(() => { 
-        if(counter>size) {
+  moveRight = (id, ref, menu) => {
+    let size = document.getElementById(id).offsetWidth;
+    let counter = 0;
+    console.log(id);
+    if(size) {
+      let geser = setInterval(() => { 
+        if(counter >= size) {
           clearInterval(geser);
+          if(menu) {
+            console.log('menu',menu)
+            localStorage.setItem('popular_menu', id);
+            // this.setState({ popularRecipes: null });
+            // this.props.getPopularRecipes(menu);
+          }
         }
-        this.refs.imgTop.scrollLeft += 10;
-        counter += 10;
-      }, 10);
+        for(let i = 0; i<5; i++) {
+          if(counter >= size){
+            break;
+          }
+          this.refs[ref].scrollLeft += 1;
+          counter += 1;
+        }
+      }, 1);
+    }
   }
 
   fetchingFoodCard = () => {
@@ -189,12 +219,14 @@ class HomePage extends Component {
         </div>
         <div className="footer-top-recipes">
           <div className="footer-top-recipes_left">
-            <label>See More</label>
-            <div></div>
+            <div>
+              <label>See More</label>
+              <div></div>
+            </div>
           </div>
           <div className="footer-top-recipes_right">
-            <button onClick={this.moveLeft}><i className="fas fa-chevron-left"></i></button>
-            <button onClick={this.moveRight}><i className="fas fa-chevron-right"></i></button>
+            <button onClick={() => this.moveLeft("foodCard1","imgTop")}><i className="fas fa-chevron-left"></i></button>
+            <button onClick={() => this.moveRight("foodCard1", "imgTop")}><i className="fas fa-chevron-right"></i></button>
           </div>
         </div>
       </div>
@@ -204,12 +236,12 @@ class HomePage extends Component {
   renderBoxCuisine() {
     return CUISINE_RECIPES.map((val,id) => {
       return (
-        <div key={id} className="box-cuisine">
+        <div key={id} className="box-cuisine" id={`boxCuisine${id}`}>
           <div className="box-header">
             <label>POPULAR CUISINES</label>
             <div>
-              <button><i className="fas fa-chevron-left"></i></button>
-              <button><i className="fas fa-chevron-right"></i></button>
+              <button onClick={() => this.moveLeft(`boxCuisine${id===0 ? id : id-1}`, "boxCuisine", CUISINE_RECIPES[id-1])}><i className="fas fa-chevron-left"></i></button>
+              <button onClick={() => this.moveRight(`boxCuisine${id===10 ? id : id+1}`, "boxCuisine", CUISINE_RECIPES[id+1])}><i className="fas fa-chevron-right"></i></button>
             </div>
           </div>
           <label>{val} Food</label>
@@ -224,26 +256,30 @@ class HomePage extends Component {
   }
 
   renderPopularRecipes() {
-    if(this.state.popularRecipes) {
+    // if(this.state.popularRecipes) {
       return (
         <div className="popular-cuisine-container">
-          <div className="box-cuisine-container">
+          <div className="box-cuisine-container" ref="boxCuisine">
             {this.renderBoxCuisine()}
           </div>
           <div className="list-image-cuisine">
-            {_.map(this.state.popularRecipes, val => {
-              return <img key={val.id} src={imageBaseURL+val.image} alt="food1"/>
-            })}
+            {this.state.popularRecipes ?
+                _.map(this.state.popularRecipes, val => {
+                  return <img key={val.id} src={imageBaseURL+val.image} alt="food1"/>
+                })
+              :
+                <span style={{color:'white',marginLeft: '25em'}}><i className="fas fa-spinner fa-pulse fa-5x"></i></span>              
+            }
           </div>
         </div>
       )
-    }
-    return (
-      <div className="popular-cuisine-container" style={{width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
-        {/* // <div className="">Loading</div>          */}
-        <span><i className="fas fa-spinner fa-pulse fa-10x"></i></span>
-      </div>
-    )
+    // }
+    // return (
+    //   <div className="popular-cuisine-container" style={{width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+    //     {/* // <div className="">Loading</div>          */}
+    //     <span><i className="fas fa-spinner fa-pulse fa-10x"></i></span>
+    //   </div>
+    // )
     
     
   }

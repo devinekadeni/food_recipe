@@ -92,14 +92,17 @@ const Wrapper = styled.div`
         font-style: italic;
 
         div {
-          border-top: solid #bd7133 2px;
-          width: 40px;
-          transition: width 0.5s ease-out;
+          width: fit-content;
+          div {
+            border-top: solid #bd7133 2px;
+            width: 40px;
+            transition: width 0.5s ease-out;
+          }
         }
-        >label:hover{
+        div>label:hover{
           cursor: pointer;
         }
-        :hover {
+        div:hover {
           color: grey;
           cursor: pointer;
 
@@ -113,25 +116,7 @@ const Wrapper = styled.div`
         display: flex;
         flex: 4;
 
-        button:first-child {
-          background-color: white;
-          border: outset 1px #cccccc;
-          margin-right: 0.7em;
-          color: #cccccc;
-          width: 1.8em;
-          height: 2.2em;
-          cursor: pointer;
-
-          :hover {
-            background-color: #ededed; 
-          }
-
-          :active {
-            border: inset;
-          }
-        }
-
-        button:last-child {
+        button {
           background-color: white;
           border: solid 1px #cccccc;
           margin-right: 0.7em;
@@ -145,7 +130,7 @@ const Wrapper = styled.div`
           }
 
           :active {
-            transform: translateY(2px)
+            transform: translateY(0.125em)
           }
         }
       }
@@ -168,17 +153,17 @@ const Wrapper = styled.div`
 
     .box-cuisine-container {
       box-sizing: border-box;
-      width: 25.72em;
-      height: 25.72em;
-      overflow: scroll;
+      width: 25.5em;
+      height: 25.5em;
+      overflow: hidden;
       display: flex;
       flex-direction: row;
 
       .box-cuisine {
         box-sizing: border-box;
         padding: 2.7em 2.2em 4.16em 2.5em;
-        min-width: 25.72em;
-        height: 25.72em;
+        min-width: 25.5em;
+        height: 100%;
         background-color: white;
         display: flex;
         flex-direction: column;
@@ -198,10 +183,19 @@ const Wrapper = styled.div`
           button {
             background-color: white;
             border: solid 1px #cccccc;
-            margin-right: 0.5em;
+            margin-right: 0.7em;
             color: #cccccc;
-            height: 1.94em;
-            width: 1.6em;
+            width: 1.8em;
+            height: 2.2em;
+            cursor: pointer;
+
+            :hover {
+              background-color: #ededed; 
+            }
+
+            :active {
+              transform: translateY(0.125em)
+            }
           }
         }
 
@@ -264,6 +258,8 @@ const Wrapper = styled.div`
       img {
         width: 12.3em;
         margin-right: 1em;
+        opacity: 0;
+        animation: popularImage 2s forwards;
 
         :last-child {
           margin-right: 0;
@@ -342,6 +338,11 @@ const Wrapper = styled.div`
         overflow: scroll;
       }
     }
+  }
+
+  @keyframes popularImage {
+    from {opacity: 0;}
+    to {opacity: 1;}
   }
 `;
 

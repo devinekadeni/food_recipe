@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { FETCH_CUISINE_TYPE, FETCH_CUISINE_TYPE_FAILED } from './types';
-import { APIKey, baseURL, headers } from '../api/ApiConfig';
+import { baseURL, headers } from '../api/ApiConfig';
 
 export const fetchPopularRecipes = (cuisine = '') => {
   const encodedCuisine = encodeURI(cuisine);
