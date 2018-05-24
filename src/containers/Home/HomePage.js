@@ -178,15 +178,15 @@ class HomePage extends Component {
   }
 
   chooseMenu = (menu) => {
-    this.setState({ topMenu: menu });
-    // this.setState({ topMenu: menu, topRecipes: null });
-    // this.props.getTopRecipes(menu);
+    // this.setState({ topMenu: menu });
+    this.setState({ topMenu: menu, topRecipes: null });
+    this.props.getTopRecipes(menu);
   }
 
   onChangeSelector = (e) => {
-    this.setState({ topMenu: e.target.value });
-    // this.setState({ topMenu: e.target.value, topRecipes: null });
-    // this.props.getTopRecipes(e.target.value);
+    // this.setState({ topMenu: e.target.value });
+    this.setState({ topMenu: e.target.value, topRecipes: null });
+    this.props.getTopRecipes(e.target.value);
   }
 
   renderTopRecipes() {
