@@ -6,7 +6,7 @@ import { baseURL, headers } from '../api/ApiConfig';
 export const fetchTopRecipes = (type = '') => {
   const encodedType = encodeURI(type);
   return (dispatch) => {
-    console.log('hit api top recipe');
+    console.log('hit get top recipes API')
     axios.get(`${baseURL}search?instructionsRequired&number=11&offset=0&query=<required>&type=${encodedType}`, {headers})
       .then(response => {
         const newResponse = { ...response, 
@@ -25,6 +25,7 @@ export const fetchTopRecipes = (type = '') => {
 }
 
 export const fetchIngredientsTopRecipes = (id) => {
+  console.log('hit ingredients top recipes API')
   return (dispatch) => {
     axios.get(`${baseURL}${id}/information?includeNutrition=false`, {headers})
       .then(response => {

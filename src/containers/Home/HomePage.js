@@ -11,7 +11,6 @@ import WrapperHomeStyle from './WrapperHomeStyle';
 import banner from '../../assets/images/banner.png';
 import { imageBaseURL } from '../../api/ApiConfig';
 
-// import APITopRecipe from '../../api/SampleAPITopRecipe.json';
 const TOP_RECIPES_MENU = ['Main Course', 'Side Dish', 'Appetizer', 'Breakfast', 'Dessert', 'Sauce', 'Drink'];
 const CUISINE_RECIPES = ['American', 'Chinese', 'Japanese', 'Korean', 'Thai', 'Indian', 'British', 'Italian', 'European', 'Mexican', 'Spanish'];
 
@@ -22,75 +21,80 @@ class HomePage extends Component {
       topRecipes: null,
       topMenu: 'Main Course',
       popularRecipes: null,
+      coba: null
     };
   }
 
   componentDidMount() {
-    const localTopRecipes = JSON.parse(localStorage.getItem('top_recipes'));
-    const localPopularRecipes = JSON.parse(localStorage.getItem('popular_recipes'));
+    // console.log('mount')
+    // console.log(this.props.topRecipes, this.props.popularRecipes)
+    // const localTopRecipes = JSON.parse(localStorage.getItem('top_recipes'));
+    // const localPopularRecipes = JSON.parse(localStorage.getItem('popular_recipes'));
     const localTopMenu = localStorage.getItem('top_menu');
     const localPopularMenu = localStorage.getItem('popular_menu');
-    if(localTopRecipes) {
-      this.setState({ topRecipes: localTopRecipes, topMenu: localTopMenu });
-    }else {
-      console.log('hit api get top recipes')
-      this.props.getTopRecipes('main course');
+    if(localTopMenu) {
+      this.setState( prevState => ({ ...prevState, topMenu: localTopMenu }));
     }
 
-    if(localPopularRecipes) {
-      this.setState({ popularRecipes: localPopularRecipes });
-    }else {
-      console.log('hit api get popular recipes')
-      this.props.getPopularRecipes('American');
-    }
+    this.props.getTopRecipes(localTopMenu ? localTopMenu : 'main course');
+    // }
+
+    this.props.getPopularRecipes(localPopularMenu ? localPopularMenu : 'American');
+    // }
     
     if(localPopularMenu) {
       document.getElementById(localPopularMenu).scrollIntoView();
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.topRecipes) {
-  //     this.setState({ topRecipes: nextProps.topRecipes.results });
-  //     localStorage.setItem('top_recipes', JSON.stringify(nextProps.topRecipes.results));
-  //     localStorage.setItem('top_menu', this.state.topMenu);
-  //     // console.log('next',nextProps.topRecipes.results);
-  //   }
-
-  //   if(nextProps.popularRecipes) {
-  //     this.setState({ popularRecipes: nextProps.popularRecipes.results });
-  //     localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
-  //     // localStorage.setItem('top_menu', this.state.topMenu);
-  //     // console.log('next',nextProps.popularRecipes.results);
-  //   }
-  //   console.log('state popular recipes', this.state.popularRecipes);
-  // }
-
+  /* run right before render() */
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('derived',nextProps)
-    console.log('prev', prevState)
+    // console.log('getDerived')
+    // console.log('nextProps',nextProps)
+    // console.log('prevState', prevState)
+
     if(nextProps.topRecipes && !prevState.topRecipes) {
-      localStorage.setItem('top_recipes', JSON.stringify(nextProps.topRecipes.results));
+      // console.log('derived state top recipes')
+      // localStorage.setItem('top_recipes', JSON.stringify(nextProps.topRecipes.results));
       localStorage.setItem('top_menu', prevState.topMenu);
       return { topRecipes: nextProps.topRecipes.results }
     }
 
     if(nextProps.popularRecipes && !prevState.popularRecipes) {
-      localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
-      // localStorage.setItem('top_menu', prevState.topMenu);
+      // console.log('derived state popular recipes')
+      // localStorage.setItem('popular_recipes', JSON.stringify(nextProps.popularRecipes.results));
       return { popularRecipes: nextProps.popularRecipes.results }
     }
+
+    // console.log(prevState.topRecipes)
+    if(prevState.topRecipes){
+    const topRecipesKey = Object.keys(prevState.topRecipes)
+    let update = false;
+    for(let a = 0; a<topRecipesKey.length; a++){
+      if(!prevState.topRecipes[topRecipesKey[a]].ingredients && nextProps.topRecipes.results[topRecipesKey[a]].ingredients) {
+        update = true;
+        break;
+      }
+    }
+      if(update){
+        update = false;
+        return { topRecipes: nextProps.topRecipes.results };
+      }
+    }
+
     return null;
     // console.log('state popular recipes', this.state.popularRecipes);
   }
 
-  componentDidUpdate(prevProps,prevState,snapshot) {
-    console.log('state popular recipes update', this.state.popularRecipes);
-    console.log('did prevprops',prevProps)
-    console.log('did prevstate',prevState)
-    console.log('did snapshot',snapshot)
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('update')
+    // console.log('state popular recipes update', this.state.popularRecipes);
+    // console.log('did prevprops',prevProps)
+    // console.log('did prevstate',prevState)
+    // console.log('did snapshot',snapshot)
   }
 
+  /* click to scroll horizontal */
   moveLeft = (id, ref, menu) => {
     let size = document.getElementById(id).offsetWidth;
     let counter = 0
@@ -102,8 +106,8 @@ class HomePage extends Component {
           if(menu) {
             console.log('menu',menu)
             localStorage.setItem('popular_menu', id);
-            // this.setState({ popularRecipes: null });
-            // this.props.getPopularRecipes(menu);
+            this.setState({ popularRecipes: null });
+            this.props.getPopularRecipes(menu);
           }
         }
         for(let i = 0; i<5; i++) {
@@ -117,6 +121,7 @@ class HomePage extends Component {
     }    
   }
 
+  /* click to scroll horizontal */
   moveRight = (id, ref, menu) => {
     let size = document.getElementById(id).offsetWidth;
     let counter = 0;
@@ -128,8 +133,8 @@ class HomePage extends Component {
           if(menu) {
             console.log('menu',menu)
             localStorage.setItem('popular_menu', id);
-            // this.setState({ popularRecipes: null });
-            // this.props.getPopularRecipes(menu);
+            this.setState({ popularRecipes: null });
+            this.props.getPopularRecipes(menu);
           }
         }
         for(let i = 0; i<5; i++) {
@@ -143,17 +148,6 @@ class HomePage extends Component {
     }
   }
 
-  fetchingFoodCard = () => {
-    if(!this.state.topRecipes) {
-      return null;
-    }
-      // const newState = _.map(this.state.topRecipes, (val, i) => {
-        // return i;
-        // return this.props.getIngredients(i);
-      // })
-        // console.log(newState);
-  }
-
   renderFoodCard() {
     if(!this.state.topRecipes) {
       return (
@@ -162,31 +156,33 @@ class HomePage extends Component {
         </div>
       )
     }else {
-      console.log('food card',this.state.topRecipes)
+      // console.log('food card',this.state.topRecipes)
       let num = 0;
       return _.map(this.state.topRecipes, (value, index) => {
         num += 1;
         return (
-      <FoodCard 
-        // onHover={this.props.getIngredients}
-        id={`foodCard${num}`}
-        key={index} 
-        data={value}
-      />)
+          <FoodCard 
+            // onHover={this.props.getIngredients}
+            id={`foodCard${num}`}
+            key={index} 
+            data={value}
+          />
+        )
     });
     }
   }
 
   chooseMenu = (menu) => {
     // this.setState({ topMenu: menu });
+    console.log('choose menu top')
     this.setState({ topMenu: menu, topRecipes: null });
     this.props.getTopRecipes(menu);
   }
 
   onChangeSelector = (e) => {
     // this.setState({ topMenu: e.target.value });
-    this.setState({ topMenu: e.target.value, topRecipes: null });
-    this.props.getTopRecipes(e.target.value);
+    // this.setState({ topMenu: e.target.value, topRecipes: null });
+    // this.props.getTopRecipes(e.target.value);
   }
 
   renderTopRecipes() {
@@ -285,6 +281,7 @@ class HomePage extends Component {
   }
 
   render() {
+    console.log('render')
     return (
       <WrapperHomeStyle>
         <img src={banner} alt="banner" style={{width: '100%', marginTop: '-5em'}}/>

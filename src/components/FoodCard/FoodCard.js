@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+
+import { fetchIngredientsTopRecipes } from '../../actions/MealTypeAction';
+
 import WrapperFoodCardStyle from './WrapperFoodCardStyle';
 import { imageBaseURL } from '../../api/ApiConfig';
 
@@ -7,6 +12,32 @@ class FoodCard extends Component {
     super(props);
     this.state = {  };
   }
+
+  async componentDidMount() {
+    // console.log('didmount FoodCard')
+    await this.props.getIngredients(this.props.data.id);
+    // console.log('ingredient',this.props.topRecipes)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('update', this.props.id)
+    // console.log('props', prevProps)
+    // console.log('ingredients',this.props.topRecipes.results)
+  }
+
+  renderIngredients = () => {
+    const { ingredients } = this.props.data
+    if(ingredients) {
+      const data = _.map(ingredients, (val, i) => {
+      if(i<6){
+        return <li key={i}><span>{`${val.measures.us.amount} ${val.measures.us.unitShort}`}</span>{` ${val.name}`}</li>
+      }
+      return null;
+      })
+      return data;
+    }
+  }
+
   render() {
     const { image, title, readyInMinutes } = this.props.data;
     return (
@@ -18,10 +49,9 @@ class FoodCard extends Component {
         >
           <img className="food-img" src={`${imageBaseURL}${image}`} alt="top-food_1"/>
           <div className="ingredients">
-            <li><span>1 ons</span> white mushrooms</li>
-            <li><span>2 gram</span> minced garlic</li>
-            <li><span>3 kilo</span> salt and pepper</li>
-            <li><span>4 liter</span> parsley</li>
+            <div className="ingredients-item">
+              {this.renderIngredients()}
+            </div>
             <div className="see-detail">
               <label>See Details</label>
               <div></div>
@@ -35,4 +65,16 @@ class FoodCard extends Component {
   }
 }
 
-export default FoodCard;
+const mapStateToProps = state => {
+  return {
+    topRecipes: state.MealTypeList.payload.data,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getIngredients: (id) => dispatch(fetchIngredientsTopRecipes(id)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FoodCard);
