@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import dotenv from 'dotenv';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -10,8 +9,6 @@ import registerServiceWorker from './registerServiceWorker';
 import rootReducer from './reducers';
 import './index.css';
 import App from './containers/App';
-
-dotenv.config();
 
 // const logger = createLogger();
 const store = createStore(rootReducer, composeWithDevTools(
@@ -23,5 +20,5 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>
-, document.getElementById('root'));
+  , document.getElementById('root'));
 registerServiceWorker();
